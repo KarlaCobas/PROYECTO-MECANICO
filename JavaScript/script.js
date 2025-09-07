@@ -166,3 +166,77 @@ document.addEventListener('DOMContentLoaded', function () {
     testimonialTrack.addEventListener('mouseleave', startAutoplay);
     testimonialTrack.addEventListener('touchend', startAutoplay);
 });
+
+function typeWriter() {
+    const titleElement = document.getElementById('main-title');
+    const text = 'Taller <span>AutoPro</span>';
+    let index = 0;
+
+    function type() {
+        if (index < text.length) {
+            if (text.substring(index, index + 6) === '<span>') {
+                titleElement.innerHTML += '<span>';
+                index += 6;
+            }
+            else if (text.substring(index, index + 7) === '</span>') {
+                titleElement.innerHTML += '</span>';
+                index += 7;
+            }
+            else {
+                titleElement.innerHTML += text.charAt(index);
+                index++;
+            }
+
+            const speed = Math.random() * 100 + 50; // Entre 50 y 150 ms
+            setTimeout(type, speed);
+        }
+    }
+
+    type();
+}
+
+window.addEventListener('load', typeWriter);
+
+function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 15;
+
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        const size = Math.random() * 5 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+
+        const duration = Math.random() * 10 + 10;
+        particle.style.animationDuration = `${duration}s`;
+
+        const delay = Math.random() * 5;
+        particle.style.animationDelay = `${delay}s`;
+
+        particlesContainer.appendChild(particle);
+    }
+}
+
+window.addEventListener('load', createParticles);
+
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, observerOptions);
